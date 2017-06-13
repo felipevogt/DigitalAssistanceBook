@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/felip/Documents/NetBeansProjects/DigitalAssistanceBook/src/digitalassistancebook/Empleado.java</file>
-            <file>file:/C:/Users/felip/Documents/NetBeansProjects/DigitalAssistanceBook/src/digitalassistancebook/Trabajo.java</file>
-            <file>file:/C:/Users/felip/Documents/NetBeansProjects/DigitalAssistanceBook/src/digitalassistancebook/Test.java</file>
-            <file>file:/C:/Users/felip/Documents/NetBeansProjects/DigitalAssistanceBook/src/digitalassistancebook/Registro.java</file>
-            <file>file:/C:/Users/felip/Documents/NetBeansProjects/DigitalAssistanceBook/src/digitalassistancebook/Descuento.java</file>
-            <file>file:/C:/Users/felip/Documents/NetBeansProjects/DigitalAssistanceBook/src/digitalassistancebook/Liquidacion.java</file>
+            <file>file:/C:/Users/felip/Documents/NetBeansProjects/DigitalAssistanceBook/src/gestorEmpleado/Descuento.java</file>
+            <file>file:/C:/Users/felip/Documents/NetBeansProjects/DigitalAssistanceBook/src/gestorEmpleado/Empleado.java</file>
+            <file>file:/C:/Users/felip/Documents/NetBeansProjects/DigitalAssistanceBook/src/gestorArchivo/ArchivoEmpleado.java</file>
+            <file>file:/C:/Users/felip/Documents/NetBeansProjects/DigitalAssistanceBook/src/gestorEmpleado/Trabajo.java</file>
+            <file>file:/C:/Users/felip/Documents/NetBeansProjects/DigitalAssistanceBook/src/gestorArchivo/GestorArchivo.java</file>
+            <file>file:/C:/Users/felip/Documents/NetBeansProjects/DigitalAssistanceBook/src/gestorEmpleado/Registro.java</file>
+            <file>file:/C:/Users/felip/Documents/NetBeansProjects/DigitalAssistanceBook/src/gestorEmpleado/GestorEmpleado.java</file>
         </group>
     </open-files>
 </project-private>
