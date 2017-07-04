@@ -1,0 +1,5 @@
+1#Carpintero#2000#2500#
+2#Jornal#1000#1500#
+3#Arquitecto#2200#2700#
+4#Pintor#3000#3500#
+5#Autocontrol#1000#1500#

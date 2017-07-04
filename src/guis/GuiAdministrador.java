@@ -5,17 +5,21 @@
  */
 package guis;
 
+import gestorEmpleado.GestorEmpleado;
+
 /**
  *
- * @author Javiii
+ * @author Javiera Jara, Alvaro Vega, Felipe Vogt
  */
 public class GuiAdministrador extends javax.swing.JFrame {
 
     /**
      * Creates new form GuiAdministrador
      */
-    public GuiAdministrador() {
+    GestorEmpleado gestorEmpleado;
+    public GuiAdministrador(GestorEmpleado gestorEmpleado) {
         initComponents();
+        this.gestorEmpleado = gestorEmpleado;
     }
 
     /**
@@ -29,6 +33,7 @@ public class GuiAdministrador extends javax.swing.JFrame {
 
         botonGestEmp = new javax.swing.JButton();
         botonLiquid = new javax.swing.JButton();
+        botonRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -48,25 +53,38 @@ public class GuiAdministrador extends javax.swing.JFrame {
             }
         });
 
+        botonRegresar.setText("Back");
+        botonRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRegresarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(116, 116, 116)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(botonGestEmp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botonLiquid, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(83, Short.MAX_VALUE))
+                .addGap(80, 80, 80)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(botonLiquid, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(botonGestEmp))
+                .addGap(80, 80, 80))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(botonRegresar)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(68, 68, 68)
+                .addGap(30, 30, 30)
                 .addComponent(botonGestEmp, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botonLiquid, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(107, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addComponent(botonRegresar)
+                .addContainerGap())
         );
 
         pack();
@@ -74,54 +92,33 @@ public class GuiAdministrador extends javax.swing.JFrame {
 
     private void botonLiquidActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonLiquidActionPerformed
         
-        GuiLiquidacion equis= new GuiLiquidacion();
-        equis.setVisible(true);
+        GuiLiquidacion guiLiquidacion= new GuiLiquidacion(this.gestorEmpleado);
+        guiLiquidacion.setVisible(true);
+        this.setVisible(false);
         
     }//GEN-LAST:event_botonLiquidActionPerformed
 
     private void botonGestEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGestEmpActionPerformed
-       GuiGestionarEmpleado ñe= new GuiGestionarEmpleado();
-       ñe.setVisible(true);
+       GuiGestionarEmpleado guiGestionarEmpleado= new GuiGestionarEmpleado(this.gestorEmpleado);
+       guiGestionarEmpleado.setVisible(true);
+       this.setVisible(false);
       
     }//GEN-LAST:event_botonGestEmpActionPerformed
+
+    private void botonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegresarActionPerformed
+        GuiPrincipal guiPrincipal = new GuiPrincipal();
+        guiPrincipal.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_botonRegresarActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GuiAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GuiAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GuiAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GuiAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GuiAdministrador().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonGestEmp;
     private javax.swing.JButton botonLiquid;
+    private javax.swing.JButton botonRegresar;
     // End of variables declaration//GEN-END:variables
 }

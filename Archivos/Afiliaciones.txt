@@ -1,0 +1,7 @@
+1#Capital#0.1144#
+2#Cuprum#0.1148#
+3#Habitat#0.1027#
+4#Modelo#0.1077#
+5#Planvital#0.1041#
+6#Provida#0.1145#
+        

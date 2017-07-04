@@ -5,17 +5,35 @@
  */
 package guis;
 
+import gestorEmpleado.GestorEmpleado;
+import gestorEmpleado.Liquidacion;
+import gestorEmpleado.Validacion;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+
 /**
  *
- * @author Javiii
+ * @author Javiera Jara, Alvaro Vega, Felipe Vogt
  */
 public class GuiLiquidacion extends javax.swing.JFrame {
 
     /**
      * Creates new form GuiLiquidacion
      */
-    public GuiLiquidacion() {
+    Validacion val = new Validacion();
+    DefaultListModel modeloLista = new DefaultListModel();
+    GestorEmpleado gestorEmpleado;
+    Liquidacion liquidacion = new Liquidacion();
+    
+    public GuiLiquidacion(GestorEmpleado gestorEmpleado) {
         initComponents();
+        this.gestorEmpleado = gestorEmpleado;
+        this.listaEmpleados.setModel(modeloLista);
+        for (int i = 0; i < gestorEmpleado.getEmpleados().size(); i++){
+            modeloLista.addElement(gestorEmpleado.getEmpleados().get(i));
+        }
+        this.botonGeneLiqui.setEnabled(false);
+        
     }
 
     /**
@@ -32,15 +50,16 @@ public class GuiLiquidacion extends javax.swing.JFrame {
         jEditorPane1 = new javax.swing.JEditorPane();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        botonGeneLiqui = new javax.swing.JButton();
+        listaEmpleados = new javax.swing.JList<>();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jComboBox3 = new javax.swing.JComboBox<>();
+        comboMes = new javax.swing.JComboBox<>();
+        comboAno = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        botonRegresar = new javax.swing.JButton();
+        botonGeneLiqui = new javax.swing.JButton();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -50,21 +69,23 @@ public class GuiLiquidacion extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jScrollPane1.setViewportView(jList1);
-
-        botonGeneLiqui.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        botonGeneLiqui.setText("Generar Liquidacion");
-        botonGeneLiqui.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonGeneLiquiActionPerformed(evt);
+        listaEmpleados.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listaEmpleadosValueChanged(evt);
             }
         });
+        jScrollPane1.setViewportView(listaEmpleados);
 
         jLabel1.setText("Fecha:");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
+        comboMes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione mes:", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
+        comboMes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboMesActionPerformed(evt);
+            }
+        });
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", " " }));
+        comboAno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione año;", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019" }));
 
         jLabel2.setText("Mes");
 
@@ -73,6 +94,21 @@ public class GuiLiquidacion extends javax.swing.JFrame {
         jLabel4.setText("Nombre");
 
         jLabel6.setText("Rut");
+
+        botonRegresar.setText("Back");
+        botonRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRegresarActionPerformed(evt);
+            }
+        });
+
+        botonGeneLiqui.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        botonGeneLiqui.setText("Generar Liquidacion");
+        botonGeneLiqui.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGeneLiquiActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -83,26 +119,27 @@ public class GuiLiquidacion extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(45, 45, 45)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3)
-                                .addGap(22, 22, 22))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addContainerGap(17, Short.MAX_VALUE))
+                        .addGap(45, 45, 45)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botonGeneLiqui, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addComponent(botonRegresar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(comboMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(comboAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addComponent(botonGeneLiqui)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel4)
@@ -119,7 +156,6 @@ public class GuiLiquidacion extends javax.swing.JFrame {
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -128,60 +164,75 @@ public class GuiLiquidacion extends javax.swing.JFrame {
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(32, 32, 32)
-                        .addComponent(botonGeneLiqui, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                            .addComponent(comboMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(comboAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(45, 45, 45)
+                        .addComponent(botonGeneLiqui, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonRegresar))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonGeneLiquiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGeneLiquiActionPerformed
-        
+        if(val.validarArchivoRegistro(gestorEmpleado.getEmpleados().get(listaEmpleados.getSelectedIndex()).getRut(), (String)this.comboMes.getSelectedItem(), (String)this.comboAno.getSelectedItem()) == true){
+           int diasTrabajados = gestorEmpleado.calcularDiasTrabajados(this.listaEmpleados.getSelectedIndex(), (String)this.comboMes.getSelectedItem(), (String)this.comboAno.getSelectedItem());
+           int horasMensuales = gestorEmpleado.calcularHorasMensuales(this.listaEmpleados.getSelectedIndex(), (String)this.comboMes.getSelectedItem(), (String)this.comboAno.getSelectedItem());
+           int horasExtrasMensuales = gestorEmpleado.calcularHorasExtrasMensuales(this.listaEmpleados.getSelectedIndex(), (String)this.comboMes.getSelectedItem(), (String)this.comboAno.getSelectedItem());
+           int valorHora = gestorEmpleado.getValorHora(gestorEmpleado.getEmpleados().get(this.listaEmpleados.getSelectedIndex()).getCodTrabajo());
+           int valorHoraExtra = gestorEmpleado.getValorHoraExtra(gestorEmpleado.getEmpleados().get(this.listaEmpleados.getSelectedIndex()).getCodTrabajo());
+           double descAfiliacion = gestorEmpleado.getDescuentoAfiliacion(gestorEmpleado.getEmpleados().get(this.listaEmpleados.getSelectedIndex()).getCodAfiliacion());
+           double descSalud = gestorEmpleado.getDescuentoSalud(gestorEmpleado.getEmpleados().get(this.listaEmpleados.getSelectedIndex()).getCodSalud());
+           double descSeguro = gestorEmpleado.getDescuentoSeguro(gestorEmpleado.getEmpleados().get(this.listaEmpleados.getSelectedIndex()).getCodSeguro());
+           
+            int sueldoBase = liquidacion.calcularSueldoBase(horasMensuales, valorHora);
+            int adicionalHorasExtras = liquidacion.calcularAdicionalHorasExtras(horasExtrasMensuales, valorHoraExtra);
+            int sueldoBruto = liquidacion.calcularSueldoBruto(sueldoBase, adicionalHorasExtras);
+            
+            double descuentoAfp = liquidacion.calcularDescuento(sueldoBruto, descAfiliacion);
+            double descuentoSalud = liquidacion.calcularDescuento(sueldoBruto, descSalud);
+            double descuentoSeguro = liquidacion.calcularDescuento(sueldoBruto, descSeguro);
+            double totalDescuento = descuentoAfp + descuentoSalud + descuentoSeguro;
+            
+            double sueldoLiquido = liquidacion.calcularSueldoLiquido(descuentoAfp, descuentoSalud, descuentoSeguro, sueldoBruto);
+            gestorEmpleado.guardarLiquidacion(this.listaEmpleados.getSelectedIndex(), this.comboMes.getSelectedItem().toString(), this.comboAno.getSelectedItem().toString(), String.valueOf(diasTrabajados), String.valueOf(horasMensuales), String.valueOf(horasExtrasMensuales),
+                    String.valueOf(sueldoBase),String.valueOf(adicionalHorasExtras), String.valueOf(sueldoBruto),
+                    String.valueOf(descuentoAfp), String.valueOf(descuentoSalud), String.valueOf(descuentoSeguro), String.valueOf(totalDescuento),
+                    String.valueOf(sueldoLiquido));
+        }else{
+            JOptionPane.showMessageDialog(null, "No existe registro de la fecha indicada");
+        }
+
     }//GEN-LAST:event_botonGeneLiquiActionPerformed
+
+    private void botonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegresarActionPerformed
+        GuiAdministrador guiAdministrador = new GuiAdministrador(this.gestorEmpleado);
+        guiAdministrador.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_botonRegresarActionPerformed
+
+    private void listaEmpleadosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaEmpleadosValueChanged
+        this.botonGeneLiqui.setEnabled(true);
+    }//GEN-LAST:event_listaEmpleadosValueChanged
+
+    private void comboMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboMesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboMesActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GuiLiquidacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GuiLiquidacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GuiLiquidacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GuiLiquidacion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GuiLiquidacion().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonGeneLiqui;
+    private javax.swing.JButton botonRegresar;
+    private javax.swing.JComboBox<String> comboAno;
+    private javax.swing.JComboBox<String> comboMes;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JEditorPane jEditorPane1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -189,8 +240,8 @@ public class GuiLiquidacion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList<String> listaEmpleados;
     // End of variables declaration//GEN-END:variables
 }

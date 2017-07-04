@@ -5,17 +5,27 @@
  */
 package guis;
 
+import gestorEmpleado.GestorEmpleado;
+
 /**
  *
- * @author Javiii
+ * @author Javiera Jara, Alvaro Vega, Felipe Vogt
  */
 public class GuiPrincipal extends javax.swing.JFrame {
 
     /**
      * Creates new form GuiPrincipal
      */
+    
+    GestorEmpleado gestorEmpleado = new GestorEmpleado();
+    
     public GuiPrincipal() {
         initComponents();
+        try{
+            gestorEmpleado.cargarEmpleado();
+        }catch(Exception e){
+            
+        }
     }
 
     /**
@@ -74,14 +84,16 @@ public class GuiPrincipal extends javax.swing.JFrame {
 
     private void botonAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAdminActionPerformed
      
-        GuiAdministrador xdxd=new GuiAdministrador();
-            xdxd.setVisible(true);
+        GuiAdministrador guiAdministrador = new GuiAdministrador(gestorEmpleado);
+        guiAdministrador.setVisible(true);
+        this.setVisible(false);
             
     }//GEN-LAST:event_botonAdminActionPerformed
 
     private void botonEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEmpActionPerformed
-         GuiEmpleado xd = new GuiEmpleado();
-         xd.setVisible(true);
+        GuiEmpleado guiEmpleado = new GuiEmpleado(gestorEmpleado);
+        guiEmpleado.setVisible(true);
+        this.setVisible(false);
        
    
     }//GEN-LAST:event_botonEmpActionPerformed
@@ -89,37 +101,7 @@ public class GuiPrincipal extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GuiPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GuiPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GuiPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GuiPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GuiPrincipal().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAdmin;

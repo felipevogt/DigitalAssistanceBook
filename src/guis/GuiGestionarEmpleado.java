@@ -1,20 +1,34 @@
 package guis;
 
+import gestorEmpleado.GestorEmpleado;
 import javax.swing.DefaultListModel;
 
 /**
  *
- * @author Javiii
+ * @author Javiera Jara, Alvaro Vega, Felipe Vogt
  */
 public class GuiGestionarEmpleado extends javax.swing.JFrame {
 
     /**
      * Creates new form GuiRegistrarEmpleado
      */
-    GuiRegistrarEmpleado xdxdxd= new GuiRegistrarEmpleado();
+    
     DefaultListModel modeloLista = new DefaultListModel();
-    public GuiGestionarEmpleado() {
+    GestorEmpleado ge;
+    
+    public GuiGestionarEmpleado(GestorEmpleado gestorEmpleado) {
         initComponents();
+        this.ge = gestorEmpleado;
+        
+        
+        this.listaEmpleados.setModel(modeloLista);
+        for (int i = 0; i < ge.getEmpleados().size(); i++){
+            modeloLista.addElement(ge.getEmpleados().get(i));
+        }
+        this.botonModificar.setEnabled(false);
+        this.botonEliminar.setEnabled(false);
+       
+        
     }
 
     /**
@@ -27,39 +41,57 @@ public class GuiGestionarEmpleado extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        listaEmpleados = new javax.swing.JList();
+        botonAgregar = new javax.swing.JButton();
+        botonModificar = new javax.swing.JButton();
+        botonEliminar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        botonRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jScrollPane1.setViewportView(jList1);
+        listaEmpleados.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listaEmpleadosValueChanged(evt);
+            }
+        });
+        jScrollPane1.setViewportView(listaEmpleados);
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jButton1.setText("Agregar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        botonAgregar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        botonAgregar.setText("Agregar");
+        botonAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botonAgregarActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jButton2.setText("Modificar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        botonModificar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        botonModificar.setText("Modificar");
+        botonModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                botonModificarActionPerformed(evt);
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jButton3.setText("Eliminar");
+        botonEliminar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        botonEliminar.setText("Eliminar");
+        botonEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Nombre");
 
         jLabel2.setText("Rut");
+
+        botonRegresar.setText("Back");
+        botonRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRegresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -70,12 +102,18 @@ public class GuiGestionarEmpleado extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
-                        .addGap(58, 58, 58)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton2)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(49, 49, 49))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(58, 58, 58)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(botonModificar)
+                                    .addComponent(botonEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(botonAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(49, 49, 49))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(botonRegresar)
+                                .addContainerGap())))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(116, 116, 116)
@@ -84,80 +122,79 @@ public class GuiGestionarEmpleado extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(79, 79, 79)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addGap(18, 18, 18)
-                .addComponent(jButton3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(20, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(79, 79, 79)
+                        .addComponent(botonAgregar)
+                        .addGap(18, 18, 18)
+                        .addComponent(botonModificar)
+                        .addGap(18, 18, 18)
+                        .addComponent(botonEliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonRegresar))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(20, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      
-         xdxdxd.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
+        GuiRegistrarEmpleado guiRegistrarEmpleado = new GuiRegistrarEmpleado(ge);
+        guiRegistrarEmpleado.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_botonAgregarActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       
-        xdxdxd.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void botonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonModificarActionPerformed
+        GuiModificarEmpleado guiModificarEmpleado = new GuiModificarEmpleado(this.listaEmpleados.getSelectedIndex(), ge);
+        guiModificarEmpleado.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_botonModificarActionPerformed
+
+    private void botonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegresarActionPerformed
+        GuiAdministrador guiAdministrador = new GuiAdministrador(this.ge);
+        guiAdministrador.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_botonRegresarActionPerformed
+
+    private void listaEmpleadosValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaEmpleadosValueChanged
+        this.botonModificar.setEnabled(true);
+        this.botonEliminar.setEnabled(true);
+    
+    }//GEN-LAST:event_listaEmpleadosValueChanged
+
+    private void botonEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarActionPerformed
+        int indice = this.listaEmpleados.getSelectedIndex();
+        ge.eliminarEmpleado(indice);
+        modeloLista.remove(indice);
+        ge.getEmpleados().remove(indice);
+        
+      
+        
+        
+        
+    }//GEN-LAST:event_botonEliminarActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GuiGestionarEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GuiGestionarEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GuiGestionarEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GuiGestionarEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GuiGestionarEmpleado().setVisible(true);
-            }
-        });
-    }
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton botonAgregar;
+    private javax.swing.JButton botonEliminar;
+    private javax.swing.JButton botonModificar;
+    private javax.swing.JButton botonRegresar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JList listaEmpleados;
     // End of variables declaration//GEN-END:variables
 }

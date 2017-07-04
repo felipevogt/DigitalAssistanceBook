@@ -1,4 +1,8 @@
 package gestorEmpleado;
+/**
+ *
+ * @author Javiera Jara, Alvaro Vega, Felipe Vogt
+ */
 
 public class Empleado {
 
@@ -13,6 +17,12 @@ public class Empleado {
     private String sexo;
     private String estadoCivil;
     private int horasPorDia;
+    private String codTrabajo;
+    private Registro registros;
+    private String codSalud;
+    private String codSeguro;
+    private String codAfiliacion;
+
     
     //Setter atributos
     public void setNombre(String nombre) {
@@ -45,65 +55,101 @@ public class Empleado {
     public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
-    
-    
-    //Atributos asociados
-    private Trabajo trabajo;
-    private Registro registros;
-    private Salud descuentoSalud;
-    private Seguro descuentoSeguro;
-    private Afiliacion descuentoAfiliacion;
-    private Liquidacion liquidacion;
-
-    //Metodos asociaciones
-    public void setTrabajo(Trabajo trabajo) {
-        this.trabajo = trabajo;
+    public void setCodTrabajo(String codTrabajo) {
+        this.codTrabajo = codTrabajo;
     }
-    public void setDescuentoSalud(Salud descuentoSalud) {
-        this.descuentoSalud = descuentoSalud;
+    public void setCodSalud(String codSalud) {
+        this.codSalud = codSalud;
     }
-    public void setDescuentoSeguro(Seguro descuentoSeguro) {
-        this.descuentoSeguro = descuentoSeguro;
+    public void setCodSeguro(String codSeguro) {
+        this.codSeguro = codSeguro;
     }
-    public void setDescuentoAfiliacion(Afiliacion descuentoAfiliacion) {
-        this.descuentoAfiliacion = descuentoAfiliacion;
-    }
-    public void setLiquidacion(Liquidacion liquidacion) {
-        this.liquidacion = liquidacion;
+    public void setCodAfiliacion(String codAfiliacion) {
+        this.codAfiliacion = codAfiliacion;
     }
 
- 
-    //Getter de atributos asociados
-    public int getValorHora() {
-        return trabajo.getValorHora();
-    }
-    public int getValorHoraExtra() {
-        return trabajo.getValorHoraExtra();
-    }
-    //Getter atributos propios
-    public int getHorasPorDias() {
-        return horasPorDia;
-    }
-
-    
-    //Constructor para crear un empleado
-    public Empleado(String nombre, String apellidoPaterno, String apellidoMaterno, String rut, String fechaNacimiento,
-            String fechaIngreso, String telefono, String sexo, String estadoCivil, int horasPorDia, 
-            Trabajo trabajo, Salud descuentoSalud, Seguro descuentoSeguro, Afiliacion descuentoAfiliacion) {
+    public Empleado(String rut, String nombre, String apellidoPaterno, String apellidoMaterno, String fechaNacimiento, String fechaIngreso, String telefono, String sexo, String estadoCivil, int horasPorDia, String codTrabajo, String codSalud, String codSeguro, String codAfiliacion) {
+        this.rut = rut;
         this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
-        this.rut = rut;
         this.fechaNacimiento = fechaNacimiento;
         this.fechaIngreso = fechaIngreso;
         this.telefono = telefono;
         this.sexo = sexo;
         this.estadoCivil = estadoCivil;
         this.horasPorDia = horasPorDia;
-        this.trabajo = trabajo;
-        this.descuentoSalud = descuentoSalud;
-        this.descuentoSeguro = descuentoSeguro;
-        this.descuentoAfiliacion = descuentoAfiliacion;
+        this.codTrabajo = codTrabajo;
+        this.codSalud = codSalud;
+        this.codSeguro = codSeguro;
+        this.codAfiliacion = codAfiliacion;
     }
+
+    @Override
+    public String toString() {
+        return nombre + " " + apellidoPaterno + " " + apellidoMaterno + " " + rut;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
+    }
+
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
+    }
+
+    public String getRut() {
+        return rut;
+    }
+
+    public String getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public String getFechaIngreso() {
+        return fechaIngreso;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public String getEstadoCivil() {
+        return estadoCivil;
+    }
+
+    public int getHorasPorDia() {
+        return horasPorDia;
+    }
+
+    public String getCodTrabajo() {
+        return codTrabajo;
+    }
+
+    public Registro getRegistros() {
+        return registros;
+    }
+
+    public String getCodSalud() {
+        return codSalud;
+    }
+
+    public String getCodSeguro() {
+        return codSeguro;
+    }
+
+    public String getCodAfiliacion() {
+        return codAfiliacion;
+    }
+    
+
     
 }

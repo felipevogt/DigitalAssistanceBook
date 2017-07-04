@@ -1,0 +1,8 @@
+1#Banmedica#0.093#
+2#Colmena Golden#0.107#
+3#Cruzblanca#0.0855#
+4#Consalud#0.0959#
+5#A#0.07#
+6#B#0.07#
+7#C#0.07#
+8#D#0.07#

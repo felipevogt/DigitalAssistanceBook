@@ -5,34 +5,34 @@
  */
 package guis;
 
-import gestorEmpleado.Afiliacion;
-import gestorEmpleado.Fonasa;
+
 import gestorEmpleado.GestorEmpleado;
-import gestorEmpleado.Isapre;
-import gestorEmpleado.Salud;
-import gestorEmpleado.Seguro;
-import gestorEmpleado.Trabajo;
+import gestorEmpleado.Validacion;
 import java.awt.event.ItemEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 
 /**
  *
- * @author Javiii
+ * @author Javiera Jara, Alvaro Vega, Felipe Vogt
  */
 public class GuiRegistrarEmpleado extends javax.swing.JFrame {
     
-    
-    GestorEmpleado ge = new GestorEmpleado();
+    Validacion val = new Validacion();
+    GestorEmpleado ge;
     /**
      * Creates new form GuiGestionarEmpleado
      */
-    public GuiRegistrarEmpleado() {
+    public GuiRegistrarEmpleado(GestorEmpleado gestorEmpleado) {
         initComponents();
-        cargarTrabajos();
-        cargarAfps();
-        cargarSeguro();
+        ge = gestorEmpleado;
 
+        
     }
 
     /**
@@ -52,36 +52,28 @@ public class GuiRegistrarEmpleado extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        nombre = new javax.swing.JTextField();
-        rut = new javax.swing.JTextField();
-        sexo = new javax.swing.JComboBox<>();
-        estadoCivil = new javax.swing.JComboBox<>();
-        cbTrabajo = new javax.swing.JComboBox();
-        mesIngreso = new javax.swing.JComboBox<>();
+        textFieldNombre = new javax.swing.JTextField();
+        textFieldRut = new javax.swing.JTextField();
+        comboBoxSexo = new javax.swing.JComboBox<>();
+        comboBoxEstadoCivil = new javax.swing.JComboBox<>();
+        comboBoxTrabajo = new javax.swing.JComboBox();
         jLabel9 = new javax.swing.JLabel();
-        mesNacimiento = new javax.swing.JComboBox<>();
-        cbAfp = new javax.swing.JComboBox();
-        salud = new javax.swing.JComboBox<>();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        comboBoxAfp = new javax.swing.JComboBox<>();
+        comboBoxSalud = new javax.swing.JComboBox<>();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        telefono = new javax.swing.JTextField();
-        horasPorDia = new javax.swing.JTextField();
-        diaNacimiento = new javax.swing.JComboBox<>();
-        diaIngreso = new javax.swing.JComboBox<>();
-        anoNacimiento = new javax.swing.JComboBox<>();
-        anoIngreso = new javax.swing.JComboBox<>();
+        textFieldTelefono = new javax.swing.JTextField();
+        textFieldHorasPorDia = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
-        apellidoPaterno = new javax.swing.JTextField();
-        apellidoMaterno = new javax.swing.JTextField();
+        textFieldApellidoPaterno = new javax.swing.JTextField();
+        textFieldApellidoMaterno = new javax.swing.JTextField();
         botonGuardad = new javax.swing.JButton();
-        tipo = new javax.swing.JComboBox();
+        jLabel20 = new javax.swing.JLabel();
+        comboBoxSeguro = new javax.swing.JComboBox<>();
+        jDateFecNacimiento = new com.toedter.calendar.JDateChooser();
+        jDateFecIngreso = new com.toedter.calendar.JDateChooser();
+        botonRegresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -97,74 +89,69 @@ public class GuiRegistrarEmpleado extends javax.swing.JFrame {
 
         jLabel6.setText("Tipo de Trabajo:");
 
-        jLabel7.setText("AFP:");
+        jLabel7.setText("Afiliación:");
 
         jLabel8.setText("Salud:");
 
-        sexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mujer", "Hombre" }));
-        sexo.addActionListener(new java.awt.event.ActionListener() {
+        textFieldNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sexoActionPerformed(evt);
+                textFieldNombreActionPerformed(evt);
             }
         });
 
-        estadoCivil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Soltero/a", "Casado/a", "Viudo/a", "Divorciado/a", "Separado/a" }));
-
-        mesIngreso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
-
-        jLabel9.setText("Nacimiento");
-
-        mesNacimiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
-
-        cbAfp.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbAfpItemStateChanged(evt);
-            }
-        });
-
-        salud.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione:", "Fonasa", "Isapre" }));
-        salud.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                saludItemStateChanged(evt);
-            }
-        });
-        salud.addActionListener(new java.awt.event.ActionListener() {
+        comboBoxSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione sexo:", "Mujer", "Hombre" }));
+        comboBoxSexo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saludActionPerformed(evt);
+                comboBoxSexoActionPerformed(evt);
             }
         });
 
-        jLabel10.setText("Dia");
+        comboBoxEstadoCivil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione estado:", "Soltero/a", "Casado/a", "Viudo/a", "Divorciado/a", "Separado/a" }));
 
-        jLabel11.setText("Mes");
+        comboBoxTrabajo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione Trabajo", "Carpintero", "Jornal", "Arquitecto", "Pintor", "AutoControl" }));
+        comboBoxTrabajo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboBoxTrabajoItemStateChanged(evt);
+            }
+        });
+        comboBoxTrabajo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxTrabajoActionPerformed(evt);
+            }
+        });
 
-        jLabel12.setText("Año");
+        jLabel9.setText("Fecha nacimiento:");
 
-        jLabel13.setText("Dia");
+        comboBoxAfp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione Afiliación", "Capital", "Cuprum", "Habitat", "Modelo", "Planvital", "Provida" }));
+        comboBoxAfp.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboBoxAfpItemStateChanged(evt);
+            }
+        });
 
-        jLabel14.setText("Mes");
-
-        jLabel15.setText("Año");
+        comboBoxSalud.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Isapre Banmedica", "Isapre Colmena Golden", "Isapre Cruzblanca", "Isapre Consalud", "Fonasa A", "Fonasa B", "Fonasa C", "Fonasa D" }));
+        comboBoxSalud.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                comboBoxSaludItemStateChanged(evt);
+            }
+        });
+        comboBoxSalud.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxSaludActionPerformed(evt);
+            }
+        });
 
         jLabel16.setText("Telefono:");
 
         jLabel17.setText("Horas por dia:");
 
-        diaNacimiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
-
-        diaIngreso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
-
-        anoNacimiento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1920", "1921", "1922", "1923", "1924", "1925", "1926", "1927", "1928", "1929", "1930", "1931", "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939", "1940", "1941", "1942", "1943", "1944", "1945", "1946", "1947", "1948", "1949", "1950", "1951", "1952", "1953", "1954", "1955", "1956", "1957", "1958", "1959", "1960", "1961", "1962", "1963", "1964", "1965", "1966", "1967", "1968", "1969", "1970", "1971", "1972", "1973", "1974", "1975", "1976", "1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017" }));
-
-        anoIngreso.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1920", "1921", "1922", "1923", "1924", "1925", "1926", "1927", "1928", "1929", "1930", "1931", "1932", "1933", "1934", "1935", "1936", "1937", "1938", "1939", "1940", "1941", "1942", "1943", "1944", "1945", "1946", "1947", "1948", "1949", "1950", "1951", "1952", "1953", "1954", "1955", "1956", "1957", "1958", "1959", "1960", "1961", "1962", "1963", "1964", "1965", "1966", "1967", "1968", "1969", "1970", "1971", "1972", "1973", "1974", "1975", "1976", "1977", "1978", "1979", "1980", "1981", "1982", "1983", "1984", "1985", "1986", "1987", "1988", "1989", "1990", "1991", "1992", "1993", "1994", "1995", "1996", "1997", "1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017" }));
-
         jLabel18.setText("Apellido Paterno:");
 
         jLabel19.setText("Apellido Materno:");
 
-        apellidoMaterno.addActionListener(new java.awt.event.ActionListener() {
+        textFieldApellidoMaterno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                apellidoMaternoActionPerformed(evt);
+                textFieldApellidoMaternoActionPerformed(evt);
             }
         });
 
@@ -175,9 +162,14 @@ public class GuiRegistrarEmpleado extends javax.swing.JFrame {
             }
         });
 
-        tipo.addActionListener(new java.awt.event.ActionListener() {
+        jLabel20.setText("Seguro:");
+
+        comboBoxSeguro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione seguro:", "Seguro Cesantia" }));
+
+        botonRegresar.setText("Back");
+        botonRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tipoActionPerformed(evt);
+                botonRegresarActionPerformed(evt);
             }
         });
 
@@ -186,330 +178,257 @@ public class GuiRegistrarEmpleado extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel8)
-                                    .addComponent(diaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(diaIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(48, 48, 48)
-                                        .addComponent(salud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(tipo, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(40, 40, 40)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(cbTrabajo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(cbAfp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(mesIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGroup(layout.createSequentialGroup()
-                                                        .addGap(22, 22, 22)
-                                                        .addComponent(jLabel14)))
-                                                .addGap(11, 11, 11))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(sexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(estadoCivil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(mesNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGap(4, 4, 4))))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(13, 13, 13)
-                                .addComponent(jLabel10)
-                                .addGap(95, 95, 95)
-                                .addComponent(jLabel11))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jLabel13)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(57, 57, 57)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(anoIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(anoNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(72, 72, 72)
-                                .addComponent(jLabel12)))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel15)
-                                .addGap(133, 133, 133))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(botonGuardad)
-                                .addGap(19, 19, 19))))))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel17)
+                    .addComponent(jLabel18)
+                    .addComponent(jLabel19)
                     .addComponent(jLabel16)
+                    .addComponent(jLabel17)
                     .addComponent(jLabel2)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel18)
-                                .addGap(2, 2, 2))
-                            .addComponent(jLabel19, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(18, 18, 18)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(apellidoPaterno, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addGap(18, 18, 18)
-                                    .addComponent(apellidoMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(rut, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                                    .addComponent(telefono)
-                                    .addComponent(horasPorDia)))))
                     .addComponent(jLabel1)
                     .addComponent(jLabel9)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel7))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel4))
+                .addGap(38, 38, 38)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jDateFecIngreso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboBoxEstadoCivil, 0, 165, Short.MAX_VALUE)
+                    .addComponent(textFieldApellidoMaterno)
+                    .addComponent(textFieldRut)
+                    .addComponent(textFieldTelefono)
+                    .addComponent(textFieldHorasPorDia)
+                    .addComponent(textFieldApellidoPaterno)
+                    .addComponent(textFieldNombre)
+                    .addComponent(jDateFecNacimiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboBoxSexo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel20))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comboBoxAfp, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comboBoxTrabajo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(comboBoxSalud, 0, 204, Short.MAX_VALUE)
+                            .addComponent(comboBoxSeguro, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(botonRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botonGuardad, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(25, 25, 25)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textFieldNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18)
-                    .addComponent(apellidoPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(apellidoMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(rut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
-                    .addComponent(telefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17)
-                    .addComponent(horasPorDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
-                .addComponent(jLabel9)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel12))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(mesNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(diaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(anoNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(sexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(estadoCivil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel14)
-                        .addComponent(jLabel15))
-                    .addComponent(jLabel13))
-                .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(mesIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(diaIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(anoIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(cbTrabajo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(comboBoxTrabajo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(cbAfp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(textFieldApellidoPaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel18)
+                    .addComponent(comboBoxAfp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textFieldApellidoMaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxSalud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textFieldRut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(comboBoxSeguro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(botonGuardad)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textFieldTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel16))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(textFieldHorasPorDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel17))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jDateFecNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(comboBoxSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(comboBoxEstadoCivil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jDateFecIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel8)
-                        .addComponent(salud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(19, 19, 19))
+                        .addComponent(botonGuardad)
+                        .addComponent(botonRegresar)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void sexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sexoActionPerformed
+    private void comboBoxSexoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSexoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_sexoActionPerformed
+    }//GEN-LAST:event_comboBoxSexoActionPerformed
 
-    private void apellidoMaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apellidoMaternoActionPerformed
+    private void textFieldApellidoMaternoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldApellidoMaternoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_apellidoMaternoActionPerformed
+    }//GEN-LAST:event_textFieldApellidoMaternoActionPerformed
 
     private void botonGuardadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardadActionPerformed
-       
-        String nomb = nombre.getText();
-        String apPaterno = apellidoPaterno.getText();
-        String apMaterno = apellidoMaterno.getText();
-        String empRut = rut.getText();
-        String fecNacimient = diaNacimiento.getSelectedItem().toString() + "-" 
-                + mesNacimiento.getSelectedItem().toString() 
-                + "-" + anoNacimiento.getSelectedItem().toString();
-        String fecIngreso = diaIngreso.getSelectedItem().toString() + "-" 
-                + mesIngreso.getSelectedItem().toString() 
-                + "-" + anoIngreso.getSelectedItem().toString();;
-        String fono = telefono.getText();
-        String sex = sexo.getSelectedItem().toString();
-        String estCivil = estadoCivil.getSelectedItem().toString();
-        int hrsPorDia = Integer.parseInt(horasPorDia.getText());
-        Trabajo trabj = (Trabajo)cbTrabajo.getSelectedItem();
-        Salud descSalud = (Salud) tipo.getSelectedItem();
-        Seguro descSeguro = this.cargarSeguro();
-        Afiliacion descAfiliacion = (Afiliacion) cbAfp.getSelectedItem();
         
-        ge.agregarEmpleado(nomb, apPaterno, apMaterno, sex, fecNacimient, fecIngreso, fono, sex, 
-                estCivil, hrsPorDia, trabj, descSalud, descSeguro, descAfiliacion);
-        ge.guardarEmpleado(nomb, apPaterno, apMaterno, sex, fecNacimient, fecIngreso, fono, sex, 
-                estCivil, hrsPorDia, trabj, descSalud, descSeguro, descAfiliacion);
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
         
-        
+        if (val.validarNombreApellido(textFieldNombre.getText()) == true ){
+            String nomb = textFieldNombre.getText();
+            if (val.validarNombreApellido(textFieldApellidoPaterno.getText()) == true){
+                String apPaterno = textFieldApellidoPaterno.getText();
+                if (val.validarNombreApellido(textFieldApellidoMaterno.getText()) == true){
+                    String apMaterno = textFieldApellidoMaterno.getText();
+                    if (val.validarRut(textFieldRut.getText()) == true && val.validarRutRepedito(textFieldRut.getText(), ge) != true){
+                        String empRut = textFieldRut.getText();
+                        if (val.validarTelefono(textFieldTelefono.getText()) == true){
+                            String fono = textFieldTelefono.getText();
+                            if (val.validarHoras(textFieldHorasPorDia.getText()) == true){
+                                int hrsPorDia = Integer.parseInt(textFieldHorasPorDia.getText());
+                                if (jDateFecNacimiento.getDate() == null){
+                                    JOptionPane.showMessageDialog(null, "Fecha invalida");
+                                }else{
+                                    String fechaNacimiento = formato.format(jDateFecNacimiento.getDate());
+                                    if (comboBoxSexo.getSelectedIndex() != 0){
+                                        String sex = comboBoxSexo.getSelectedItem().toString();
+                                        if (comboBoxEstadoCivil.getSelectedIndex() != 0){
+                                            String estCivil = comboBoxEstadoCivil.getSelectedItem().toString();
+                                            if (jDateFecIngreso.getDate() == null){
+                                                JOptionPane.showMessageDialog(null, "Fecha invalida");
+                                            }else{
+                                                String fechaIngreso = formato.format(jDateFecIngreso.getDate());
+                                                if (comboBoxTrabajo.getSelectedIndex() != 0){
+                                                String codTrabjo = String.valueOf(comboBoxTrabajo.getSelectedIndex());
+                                                    if (comboBoxAfp.getSelectedIndex() != 0){
+                                                        String codAfiliacion = String.valueOf(comboBoxAfp.getSelectedIndex());
+                                                        if (comboBoxSalud.getSelectedIndex() != 0){
+                                                            String codSalud = String.valueOf(comboBoxSalud.getSelectedIndex());
+                                                            if (comboBoxSeguro.getSelectedIndex() != 0){
+                                                                String codSeguro = String.valueOf(comboBoxSeguro.getSelectedIndex());
+                                                                ge.agregarEmpleado(empRut, nomb, apPaterno, apMaterno, fechaNacimiento, fechaIngreso, fono, sex, 
+                                                                        estCivil, hrsPorDia, codTrabjo, codSalud, codSeguro, codAfiliacion);
+                                                                ge.guardarEmpleado(empRut, nomb, apPaterno, apMaterno, fechaNacimiento, fechaIngreso, fono, sex,
+                                                                        estCivil, hrsPorDia, codTrabjo, codSalud, codSeguro, codAfiliacion);
+                                                                JOptionPane.showMessageDialog(null, "Datos guardados con exito!");
+                                                                GuiGestionarEmpleado guiGE = new GuiGestionarEmpleado(this.ge);
+                                                                guiGE.setVisible(true);
+                                                                this.setVisible(false);
+                                                            }else{
+                                                                JOptionPane.showMessageDialog(null, "Seleccione Seguro");
+                                                            }
+                                                        }else{
+                                                            JOptionPane.showMessageDialog(null, "Seleccione Isapre o Fonasa");
+                                                        }
+                                                    }else{
+                                                        JOptionPane.showMessageDialog(null, "Seleccione afiliación");
+                                                    }
+                                                }else{
+                                                    JOptionPane.showMessageDialog(null, "Seleccione trabajo");
+                                                }
+                                            }
+                                        }else{
+                                            JOptionPane.showMessageDialog(null, "Seleccione estado civil");
+                                        }
+                                    }else{
+                                        JOptionPane.showMessageDialog(null, "Seleccione sexo");
+                                    }
+                                }
+                            }else{
+                                JOptionPane.showMessageDialog(null, "Horas invalidas o en blanco");
+                            }
+                        }else{
+                            JOptionPane.showMessageDialog(null, "Telefono invalido o en blanco");
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(null, "RUT invalido o en blanco");
+                    }
+                }else{
+                    JOptionPane.showMessageDialog(null, "Apellido Materno invalido o en blanco");
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Apellido Paterno invalido o en blanco");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "Nombre invalido o en blanco");
+        }
     }//GEN-LAST:event_botonGuardadActionPerformed
 
-    private void cbAfpItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbAfpItemStateChanged
+    private void comboBoxAfpItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBoxAfpItemStateChanged
         // TODO add your handling code here:
-    }//GEN-LAST:event_cbAfpItemStateChanged
+    }//GEN-LAST:event_comboBoxAfpItemStateChanged
 
-    private void tipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoActionPerformed
+    private void comboBoxSaludItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBoxSaludItemStateChanged
+        
+    }//GEN-LAST:event_comboBoxSaludItemStateChanged
+
+    private void comboBoxSaludActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxSaludActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_tipoActionPerformed
+    }//GEN-LAST:event_comboBoxSaludActionPerformed
 
-    private void saludItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_saludItemStateChanged
-        
-        Isapre banmedica, colmena, cruzblanca, consalud;
-        Fonasa a, b, c, d;
-        
-        banmedica = new Isapre("Banmedica", 0.093);
-        colmena = new Isapre("Colmena Golden", 0.107);
-        cruzblanca = new Isapre("Cruzblanca", 0.0855);
-        consalud = new Isapre("Consalud", 0.0959);
-        
-        a = new Fonasa("A", 0.07);
-        b = new Fonasa("B", 0.07);
-        c = new Fonasa("C", 0.07);
-        d = new Fonasa("D", 0.07);
-        
-        if(salud.getSelectedIndex() == 1){
-            tipo.removeAllItems();
-            tipo.addItem(a);
-            tipo.addItem(b);
-            tipo.addItem(c);
-            tipo.addItem(d);
-            
-        }
-        if(salud.getSelectedIndex() == 2){
-            tipo.removeAllItems();
-            tipo.addItem(banmedica);
-            tipo.addItem(colmena);
-            tipo.addItem(cruzblanca);
-            tipo.addItem(consalud);
-
-        }
-    }//GEN-LAST:event_saludItemStateChanged
-
-    private void saludActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saludActionPerformed
+    private void comboBoxTrabajoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxTrabajoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_saludActionPerformed
+    }//GEN-LAST:event_comboBoxTrabajoActionPerformed
+
+    private void botonRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegresarActionPerformed
+        GuiGestionarEmpleado guiGE = new GuiGestionarEmpleado(this.ge);
+        guiGE.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_botonRegresarActionPerformed
+
+    private void textFieldNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldNombreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textFieldNombreActionPerformed
+
+    private void comboBoxTrabajoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_comboBoxTrabajoItemStateChanged
+        
+    }//GEN-LAST:event_comboBoxTrabajoItemStateChanged
  
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GuiRegistrarEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GuiRegistrarEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GuiRegistrarEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GuiRegistrarEmpleado.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GuiRegistrarEmpleado().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> anoIngreso;
-    private javax.swing.JComboBox<String> anoNacimiento;
-    private javax.swing.JTextField apellidoMaterno;
-    private javax.swing.JTextField apellidoPaterno;
     private javax.swing.JButton botonGuardad;
-    private javax.swing.JComboBox cbAfp;
-    private javax.swing.JComboBox cbTrabajo;
-    private javax.swing.JComboBox<String> diaIngreso;
-    private javax.swing.JComboBox<String> diaNacimiento;
-    private javax.swing.JComboBox<String> estadoCivil;
-    private javax.swing.JTextField horasPorDia;
+    private javax.swing.JButton botonRegresar;
+    private javax.swing.JComboBox<String> comboBoxAfp;
+    private javax.swing.JComboBox<String> comboBoxEstadoCivil;
+    private javax.swing.JComboBox<String> comboBoxSalud;
+    private javax.swing.JComboBox<String> comboBoxSeguro;
+    private javax.swing.JComboBox<String> comboBoxSexo;
+    private javax.swing.JComboBox comboBoxTrabajo;
+    private com.toedter.calendar.JDateChooser jDateFecIngreso;
+    private com.toedter.calendar.JDateChooser jDateFecNacimiento;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -517,57 +436,15 @@ public class GuiRegistrarEmpleado extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JComboBox<String> mesIngreso;
-    private javax.swing.JComboBox<String> mesNacimiento;
-    private javax.swing.JTextField nombre;
-    private javax.swing.JTextField rut;
-    private javax.swing.JComboBox<String> salud;
-    private javax.swing.JComboBox<String> sexo;
-    private javax.swing.JTextField telefono;
-    private javax.swing.JComboBox tipo;
+    private javax.swing.JTextField textFieldApellidoMaterno;
+    private javax.swing.JTextField textFieldApellidoPaterno;
+    private javax.swing.JTextField textFieldHorasPorDia;
+    private javax.swing.JTextField textFieldNombre;
+    private javax.swing.JTextField textFieldRut;
+    private javax.swing.JTextField textFieldTelefono;
     // End of variables declaration//GEN-END:variables
 
-    private void cargarTrabajos() {
-        Trabajo carpintero, jornal, arquitecto, pintor, autocontrol;
-        
-        carpintero = new Trabajo("Carpintero", 2000, 2500);
-        jornal = new Trabajo("Jornal", 1000, 1500);
-        arquitecto = new Trabajo("Arquitecto", 2200, 2700);
-        pintor = new Trabajo("Pintor", 3000, 3500);
-        autocontrol = new Trabajo("Autocontrol", 1000, 1500);
-        
-        cbTrabajo.addItem(carpintero);
-        cbTrabajo.addItem(jornal);
-        cbTrabajo.addItem(arquitecto);
-        cbTrabajo.addItem(pintor);
-        cbTrabajo.addItem(autocontrol);
-    }
-
-    private void cargarAfps() {
-        Afiliacion capital, cuprum, habitat, modelo, planvital, provida;
-        
-        capital = new Afiliacion("Capital", 0.1144);
-        cuprum = new Afiliacion("Cuprum", 0.1148);
-        habitat = new Afiliacion("Habitat", 0.1027);
-        modelo = new Afiliacion("Modelo", 0.1077);
-        planvital = new Afiliacion("Planvital", 0.1041);
-        provida = new Afiliacion("Provida", 0.1145);
-        
-        cbAfp.addItem(capital);
-        cbAfp.addItem(cuprum);
-        cbAfp.addItem(habitat);
-        cbAfp.addItem(modelo);
-        cbAfp.addItem(planvital);
-        cbAfp.addItem(provida);
-        
-    }
-
-    private Seguro cargarSeguro() {
-        Seguro seguro = new Seguro("Seguro Cesantia", 0.07);
-        return seguro;
-    }
-
-
+   
 
   
 }
