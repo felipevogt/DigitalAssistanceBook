@@ -79,4 +79,13 @@ public class ArchivoLiquidacion extends GestorArchivo{
         super.escribirArchivo(this.archivo, "Sueldo liquido: "+ sueldoLiquido);
         
     }
+
+    public File getArchivo() {
+        return archivo;
+    }
+    
+
+
+    
+    
 }

@@ -12,7 +12,7 @@ public class Liquidacion {
     /**
      * metodo para calcular el sueldo base de un empleado, que se calcularian
      * multiplicando el total de horas trabajadas por el valor de la hora que tenga un empleado
-     * @param totalHora, corresponde al total de horas trabajadas en un mes
+     * @param totalHoras, corresponde al total de horas trabajadas en un mes
      * @param valorHora, corresponde al valor de la hora que tenga un empleado
      * @return retorna el valorHora por el totalHora
      * 
@@ -44,8 +44,8 @@ public class Liquidacion {
     }
     /**
      * Aplica un descuento al sueldo bruto
-     * @param sueldoBruto
-     * @param descuento
+     * @param sueldoBruto corresponde al sueldo bruto de un empleado
+     * @param descuento corresponde al descuento que se aplica a sueldo bruto, puede ser un descuento de afp, isapre, fonasa o seguro
      * @return retorna la multiplicacion de sueldoBruto y descuento que seria lo que se debe descontar del sueldo bruto
      */
     public double calcularDescuento(int sueldoBruto, double descuento){

@@ -1,0 +1,22 @@
+--------Datos Empleado---------
+Nombre: Asd Asd Asd
+Rut: 10284125-1
+Fecha ingreso: 15/07/2017
+Cargo: Jornal
+Afiliacion: Cuprum
+Salud: Banmedica
+Seguro: Seguro Cesantia
+Dias trabajados: 1
+Horas trabajadas: 0
+Horas extras realizadas: 0
+------------Haberes------------
+Sueldo Base: 0
+Adicional horas extra: +0
+Total imponible: 0
+-----------Descuentos----------
+Cotizacion AFP: -0.0
+Cotizacion Salud: -0.0
+Seguro cesantia: -0.0
+total Descuentos: -0.0
+-------------Sueldo------------
+Sueldo liquido: 0.0

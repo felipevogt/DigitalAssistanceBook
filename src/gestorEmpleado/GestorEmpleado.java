@@ -22,7 +22,10 @@ public class GestorEmpleado {
     
     
     
-    //Agrega empleados a un arraylist
+    /**
+     * Agrega un empleado al arraylist
+     * 
+     */
     public void agregarEmpleado(String rut, String nombre, String apellidoPaterno, String apellidoMaterno,  
             String fechaNacimiento, String fechaIngreso, String telefono, String sexo, String estadoCivil, 
             int horasPorDia, String codTrabajo, String codSalud, String codSeguro, String codAfiliacion){
@@ -32,6 +35,11 @@ public class GestorEmpleado {
         
         empleados.add(empleado);
     }
+    /**
+     * 
+     * modifica un empleado del archivo de texto
+     * 
+     */
     public void modificarEmpleado(int indice, String rut, String nombre, String apellidoPaterno, String apellidoMaterno,  
             String fechaNacimiento, String fechaIngreso, String telefono, String sexo, String estadoCivil, 
             int horasPorDia, String codTrabajo, String codSalud, String codSeguro, String codAfiliacion){
@@ -44,10 +52,18 @@ public class GestorEmpleado {
                                empleados.get(indice).getCodTrabajo()+"#"+empleados.get(indice).getCodSalud()+"#"+empleados.get(indice).getCodSeguro()+"#"+empleados.get(indice).getCodAfiliacion()+"#";
         ArchivoEmpleado archEmp = new ArchivoEmpleado();
         archEmp.modificarArchivo(cadenaAntigua, cadenaNueva);
+        ArchivoRegistro archRegistro = new ArchivoRegistro(empleados.get(indice).getRut());
+        ArchivoRegistro archRegistroNuevo = new ArchivoRegistro(rut);
+        archRegistro.moverArchivo(archRegistroNuevo.getRutaEmpleado());
+        archRegistro.autoDestruccion();
+       
        
         
     }
     
+    /**
+     * Elimina un empleado del archivo de texto 
+     */
     public void eliminarEmpleado(int indice){
                
         String cadenaAntigua = empleados.get(indice).getRut()+"#"+empleados.get(indice).getNombre()+"#"+empleados.get(indice).getApellidoPaterno()+"#"+empleados.get(indice).getApellidoMaterno()+"#"+empleados.get(indice).getFechaNacimiento()+"#"+
@@ -56,10 +72,13 @@ public class GestorEmpleado {
         
         ArchivoEmpleado archEmp = new ArchivoEmpleado();
         archEmp.eliminarRegistro(cadenaAntigua);
-        System.out.println(cadenaAntigua);
+        
       
     }
-    //Guarda a los empleados en un archivo de texto
+    /**
+     * 
+     * guarda un empleado en un archivo de texto
+     */
     public void guardarEmpleado(String rut, String nombre, String apellidoPaterno, String apellidoMaterno, 
             String fechaNacimiento, String fechaIngreso, String telefono, String sexo, String estadoCivil, 
             int horasPorDia, String codTrabajo, String codSalud, String codSeguro, String codAfiliacion){
@@ -74,6 +93,9 @@ public class GestorEmpleado {
         
     }
     
+    /**
+     * carga los empleados de un archivo de texto y los almacena en un arraylist llamando al metodo agregarEmpleados    
+    */
     public void cargarEmpleado(){
         ArchivoEmpleado archEmp = new ArchivoEmpleado();
         
@@ -87,11 +109,17 @@ public class GestorEmpleado {
         }
     }
     
+    /**
+     * Guarda la hora de entrada de un empleado en un archivo de texto que lleva de nombre el mes y año en la carpeta con nombre del rut del empleado
+     */
     public void guardarEntradaEmpleado(int indice, int horaEntrada, int minutoEntrada, String dia, String mes, String ano){
         ArchivoRegistro archReg = new ArchivoRegistro(this.empleados.get(indice).getRut());
         String cadena = "dia:" + dia + "#" + horaEntrada + "#" + minutoEntrada + "#" + "null#" + "null#" + "0#" + "0#";
         archReg.escribirArchivo(cadena, mes, ano);
     }
+    /**
+     * Guarda la hora de salida de un empleado en un archivo de texto que lleva de nombre el mes y año en la carpeta con nombre del rut del empleado
+     */
     public void guardarSalidaEmpleado(int indice, int horaSalida, int minutoSalida, String dia, String mes, String ano){
         ArchivoRegistro archReg = new ArchivoRegistro(this.empleados.get(indice).getRut());
         String cadena = "dia:"+dia;
@@ -108,7 +136,11 @@ public class GestorEmpleado {
         
         
     }
-    
+    /**
+     * 
+     * Calcula las horas que trabajo en 1 dia un empleado
+     * @return retorna el total de horas trabajadas en 1 dia
+     */
     public int calcularHorasDiarias(int horasPorDia, int horaEntrada, int minutoEntrada, int horaSalida, int minutoSalida){
         if (minutoSalida - minutoEntrada < 0){
             if (((horaSalida - horaEntrada) - 1) >= horasPorDia){
@@ -125,6 +157,10 @@ public class GestorEmpleado {
         }
     } 
     
+    /**
+     * calcula el total de horas extras en 1 dia
+     * @return retorna el total de horas extras realizadas en un dia
+     */
     public int calcularHorasExtrasDiarias(int horasPorDia, int horaEntrada, int minutoEntrada, int horaSalida, int minutoSalida){
         
         if (minutoSalida - minutoEntrada < 0){
@@ -143,6 +179,10 @@ public class GestorEmpleado {
 
     }
     
+    /**
+     * calcula las horas mensuales realizadas por un empleado 
+     * @return retorna el total de horas mensuales
+     */
     public int calcularHorasMensuales(int indice, String mes, String ano){
         String rut = this.empleados.get(indice).getRut();
         ArchivoRegistro archReg = new ArchivoRegistro(rut);
@@ -153,6 +193,10 @@ public class GestorEmpleado {
         }
         return totalHoras;
     }
+    /**
+     * calcula las horas extras mensuales realizadas por un empleado 
+     * @return retorna el total de horas extras mensuales
+     */
     
     public int calcularHorasExtrasMensuales(int indice, String mes, String ano){
         String rut = this.empleados.get(indice).getRut();
@@ -165,6 +209,10 @@ public class GestorEmpleado {
         return totalHoras;
     }
     
+    /**
+     * calcula el total de dias trabajados sumando todas las lineas del archivo de registro correspondiente
+     * @return retorna el total de dias
+     */
     public int calcularDiasTrabajados(int indice, String mes, String ano){
         String rut = this.empleados.get(indice).getRut();
         ArchivoRegistro archReg = new ArchivoRegistro(rut);
@@ -177,6 +225,10 @@ public class GestorEmpleado {
         
     }
     
+    /**
+     * busca en el archivo trabajos por el codigo, el valor de la hora trabajada
+     * @return retorna el valor de la hora de un trabajo
+     */
     public int getValorHora(String codTrabajo){
         ArchivoTrabajo archTrabajo = new ArchivoTrabajo();
         String cadenaLeida[]= archTrabajo.leerArchivo().split("#");
@@ -184,7 +236,10 @@ public class GestorEmpleado {
         return Integer.parseInt(valorHora);
         
     }
-    
+    /**
+     * busca en el archivo trabajos por el codigo, el valor de la hora extra trabajada
+     * @return retorna el valor de la hora extra de un trabajo
+     */
     public int getValorHoraExtra(String codTrabajo){
         ArchivoTrabajo archTrabajo = new ArchivoTrabajo();
         String cadenaLeida[]= archTrabajo.leerArchivo().split("#");
@@ -192,6 +247,10 @@ public class GestorEmpleado {
         return Integer.parseInt(valorHora);
         
     }
+   /**
+     * busca en el archivo trabajos por el codigo, el tipo de trabajo
+     * @return retorna el nombre del trabajo
+     */
     public String getNombreTrabajo(String codTrabajo){
         ArchivoTrabajo archTrabajo = new ArchivoTrabajo();
         String cadenaLeida[]= archTrabajo.leerArchivo().split("#");
@@ -199,7 +258,10 @@ public class GestorEmpleado {
         return nombreTrabajo;
         
     }
-    
+    /**
+     * busca en el archivo afiliacion por el codigo, el descuento de dicha afiliacion
+     * @return retorna el descuento
+     */
     public double getDescuentoAfiliacion(String codAfilacion){
         ArchivoAfiliacion archAfilacion = new ArchivoAfiliacion();
         String cadenaLeida[]= archAfilacion.leerArchivo().split("#");
@@ -207,19 +269,30 @@ public class GestorEmpleado {
         return Double.parseDouble(valorDescuento);
     }
     
+    /**
+     * busca en el archivo afiliacion por el codigo, el nombre de dicha afiliacion
+     * @return retorna el nombre
+     */
     public String getNombreAfiliacion(String codAfilacion){
         ArchivoAfiliacion archAfilacion = new ArchivoAfiliacion();
         String cadenaLeida[]= archAfilacion.leerArchivo().split("#");
         String nombreAfiliacion = cadenaLeida[1+(Integer.parseInt(codAfilacion)-1)*3];
         return nombreAfiliacion;
     }
-    
+    /**
+     * busca en el archivo salud por el codigo, el descuento que puede ser de isapre o fonasa
+     * @return retorna el descuento
+     */
     public double getDescuentoSalud(String codSalud){
         ArchivoSalud archSalud = new ArchivoSalud();
         String cadenaLeida[]= archSalud.leerArchivo().split("#");
         String valorDescuento=cadenaLeida[2+(Integer.parseInt(codSalud)-1)*3];
         return Double.parseDouble(valorDescuento);
     }
+    /**
+     * busca en el archivo salud por el codigo, el nombre que puede ser de alguna isapre o fonasa
+     * @return retorna el nombre
+     */
     public String getNombreSalud(String codAfilacion){
         ArchivoSalud archSalud = new ArchivoSalud();
         String cadenaLeida[]= archSalud.leerArchivo().split("#");
@@ -227,19 +300,30 @@ public class GestorEmpleado {
         return nombreSalud;
     }
     
+    /**
+     * busca en el archivo seguro por el codigo, el descuento que de algun seguro
+     * @return retorna el descuento
+     */
     public double getDescuentoSeguro(String codSeguro){
         ArchivoSeguro archSeguro= new ArchivoSeguro();
         String cadenaLeida[]= archSeguro.leerArchivo().split("#");
         String valorDescuento=cadenaLeida[2+(Integer.parseInt(codSeguro)-1)*3];
         return Double.parseDouble(valorDescuento);
     }
-    
+    /**
+     * busca en el archivo seguro por el codigo, el nombre del descuento que de algun seguro
+     * @return retorna el nombre
+     */
     public String getNombreSeguro(String codSeguro){
         ArchivoSeguro archSeguro= new ArchivoSeguro();
         String cadenaLeida[]= archSeguro.leerArchivo().split("#");
         String nombreSeguro = cadenaLeida[1+(Integer.parseInt(codSeguro)-1)*3];
         return nombreSeguro;
     }
+    
+    /**
+     * Guarda en un archivo de texto nombrado liquidacion, la liquidacion con todos los datos correspondientes de un empleado   
+     */
 
     public void guardarLiquidacion(int indice, String mes, String ano,  String diasTrabajados, String horasTrabajadas, String horasExtras,
             String sueldoBase, String adicionalHorasExtras, String sueldoBruto,
@@ -253,11 +337,15 @@ public class GestorEmpleado {
         String seguro = this.getNombreSeguro(empleados.get(indice).getCodSeguro());
         
         ArchivoLiquidacion archLiquidacion = new ArchivoLiquidacion(rut);
+
         
         archLiquidacion.escribirArchivo(mes, ano, nombre, rut, fechaIngreso, cargo, afiliacion, salud, seguro, diasTrabajados, horasTrabajadas, horasExtras,
                 sueldoBase, adicionalHorasExtras, sueldoBruto, descuentoAfp, descuentoSalud, descuentoSeguro, totalDescuento, sueldoLiquido);
-        
     }
+    /**
+     * get del arraylist
+     * @return retorna el arraylist de empleados
+     */
     public ArrayList<Empleado> getEmpleados() {
         return empleados;
     }

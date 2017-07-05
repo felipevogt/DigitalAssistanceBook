@@ -1,6 +1,7 @@
 package gestorEmpleado;
 
 
+import gestorArchivo.ArchivoLiquidacion;
 import gestorArchivo.ArchivoRegistro;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -120,6 +121,14 @@ public class Validacion {
         }
     }
     
+    /**
+     * Comprueba si hay un espacio distinto de null en el espacio correspondiente a la hora de salida del archivo de registro de un empleado
+     * @param rut corresponde al rut del empleado que lleva el nombre del archivo
+     * @param dia corresponde al dia que se esta buscando
+     * @param mes corresponde al mes que tiene como nombre el archivo
+     * @param ano corresponde al año que tiene como nombre el archivo
+     * @return restorna false en caso de encontrar null en el espacio correspondiente a la hora de salida, retorna false caso contrario
+     */
     public boolean validarSalida(String rut, String dia, String mes, String ano ){
         ArchivoRegistro archReg = new ArchivoRegistro(rut);
         String diaBuscado = "dia:" + dia;
@@ -135,6 +144,14 @@ public class Validacion {
             return true;
         }
     }
+    
+    /**
+     * Comprueba si existe el archivo registro de un empleado
+     * @param rut corresponde al rut del empleado que lleva el nombre del archivo
+     * @param mes corresponde al mes que tiene como nombre el archivo
+     * @param ano corresponde al año que tiene como nombre el archivo
+     * @return true en caso de existir el archivo, false caso contrario
+     */
     public boolean validarArchivoRegistro(String rut, String mes, String ano){
         ArchivoRegistro archReg = new ArchivoRegistro(rut);
         if(archReg.getArchivo(mes, ano).exists()){
@@ -142,5 +159,15 @@ public class Validacion {
         }else{
             return false;
         }
+    }
+    
+    public boolean validarLiquidacion(String rut){
+        ArchivoLiquidacion archLiquidacion = new ArchivoLiquidacion(rut);
+        if(archLiquidacion.getArchivo().exists()){
+            return true;
+        }else{
+            return false;
+        }
+            
     }
 }

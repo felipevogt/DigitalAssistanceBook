@@ -1,0 +1,22 @@
+--------Datos Empleado---------
+Nombre: Agregar Cosas Malas
+Rut: 11111111-1
+Fecha ingreso: 21/07/2017
+Cargo: Jornal
+Afiliacion: Habitat
+Salud: A
+Seguro: Seguro Cesantia
+Dias trabajados: 9
+Horas trabajadas: 34
+Horas extras realizadas: 56
+------------Haberes------------
+Sueldo Base: 34000
+Adicional horas extra: +84000
+Total imponible: 118000
+-----------Descuentos----------
+Cotizacion AFP: -12118.6
+Cotizacion Salud: -8260.0
+Seguro cesantia: -8260.0
+total Descuentos: -28638.6
+-------------Sueldo------------
+Sueldo liquido: 89361.4

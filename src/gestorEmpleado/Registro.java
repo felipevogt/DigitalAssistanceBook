@@ -43,4 +43,8 @@ public class Registro {
         SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/YYYY");
         return formatoFecha.format(fecha);
     }
+    public Date capturarDate(){
+        Date date = new Date();
+        return date;
+    }
 }

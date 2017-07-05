@@ -6,6 +6,10 @@
 package gestorArchivo;
 
 import java.io.File;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 
 /**
  *
@@ -91,6 +95,24 @@ public class ArchivoRegistro extends GestorArchivo{
     }
 
   
-    
+     public void moverArchivo(String destino){
+        Path origenPath = FileSystems.getDefault().getPath(this.rutaEmpleado);
+        Path destinoPath = FileSystems.getDefault().getPath(destino);
+
+
+        try {
+            Files.move(origenPath, destinoPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception e) {
+           
+        }
+    }
+
+    public String getRutaEmpleado() {
+        return rutaEmpleado;
+    }
+
+    public void autoDestruccion(){
+        this.ruta.delete();
+    }
     
 }
