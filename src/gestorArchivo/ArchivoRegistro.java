@@ -57,6 +57,8 @@ public class ArchivoRegistro extends GestorArchivo{
      /**
      *Metodo heredado de GestorArchivo, el cual busca una linea
      * @param cadenaBuscada, corresponde a una cadena que se buscara dentro del archivo
+     * @param mes, corresponde a un mes que forma parte del nombre del archivo
+     * @param ano, corresponde al ano que forma parte del nombre del archivo
      * @return retorna la linea encontrada que cotiene la cadenaBuscada
      */
     public String buscarEnArchivo(String cadenaBuscada, String mes, String ano) {
@@ -67,6 +69,9 @@ public class ArchivoRegistro extends GestorArchivo{
 
      /**
      *Metodo heredado de GestorArchivo, el cual lee los datos que se encuentren en el archivo
+     * @param mes, corresponde a un mes que forma parte del nombre del archivo
+     * @param ano, corresponde al ano que forma parte del nombre del archivo
+     * @return retorna todo el contenido de un texto en una cadena
      */
     public String leerArchivo(String mes, String ano) {
         String rutaRegistros = this.rutaEmpleado + "\\" + mes + "-" + ano + ".txt";
@@ -75,6 +80,9 @@ public class ArchivoRegistro extends GestorArchivo{
     }
      /**
      *get del archivo de texto, para posteriormente verificar su existencia
+     * @param mes, corresponde a un mes que forma parte del nombre del archivo
+     * @param ano, corresponde al ano que forma parte del nombre del archivo
+     * @return retorna un archivo
      */
     public File getArchivo(String mes, String ano) {
         String rutaRegistros = this.rutaEmpleado + "\\" + mes + "-" + ano + ".txt";

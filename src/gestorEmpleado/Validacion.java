@@ -13,7 +13,11 @@ import java.util.regex.Pattern;
 
 public class Validacion {
     
-   
+   /**
+    * Valida que el nombre o apellido contenga solo letras y la primera inicial en mayuscula
+    * @param nombre corresponde al nombre o apellido de una persona
+    * @return retorna true o false dependiendo de si hizo match
+    */
     public boolean validarNombreApellido(String nombre){
         Pattern pat = Pattern.compile("[A-Z][a-z]{1,20}");
         Matcher mat = pat.matcher(nombre);
@@ -23,6 +27,12 @@ public class Validacion {
             return false;
         }
     }
+    
+    /**
+     * Comprueba que el rut solo tenga de 7 a 8 numeros seguidos de un guion y luedo de un digito o una k
+     * @param rut corresponde al rut de una persona
+     * @return retorna true o false dependiendo de si hizo match
+     */
     public boolean validarRut(String rut){
         Pattern pat = Pattern.compile("\\d{7,8}-[0-9kK]");
         Matcher mat = pat.matcher(rut);
@@ -32,7 +42,12 @@ public class Validacion {
             return false;
         }
     }
-    
+    /**
+     * Comprueba si existe algun empleado con el mismo rut
+     * @param rut corresponde al rut de un empleado
+     * @param empleados corresponde a un objeto de tipo GestorEmpleado que contiene el arraylist de empleados
+     * @return retorna true si existe algun empleado con el mismo rut, caso contrario retorna false
+     */
     public boolean validarRutRepedito(String rut, GestorEmpleado empleados){
         GestorEmpleado ge = empleados;
         int valido = 0;
@@ -48,6 +63,11 @@ public class Validacion {
         }
         
     }
+    /**
+     * Comprueba que el telefono solo contenga 9 numeros 
+     * @param telefono, corresponde al numero de telefono
+     * @return devuelve true en caso de que solo contenga 9 numeros o false en caso de que no se cumpla la condicion
+     */
     public boolean validarTelefono(String telefono){
         Pattern pat = Pattern.compile("\\d{9}");
         Matcher mat = pat.matcher(telefono);
@@ -57,6 +77,11 @@ public class Validacion {
             return false;
         }
     }
+    /**
+     * Comprueba que la hora solo sea de 1 a 9 ya que un empleado no puede trabajar mas de 0 horas
+     * @param hora corresponde a las horas trabajadas
+     * @return retorna true en caso de que se cumplea la condicon y false caso contrario
+     */
     public boolean validarHoras(String hora){
         Pattern pat = Pattern.compile("[1-9]");
         Matcher mat = pat.matcher(hora);
@@ -76,6 +101,14 @@ public class Validacion {
         }
     }
 
+    /**
+     * Comprueba que en un archivo exista el dia que se esta buscando
+     * @param rut corresponde al rut del empleado que lleva el nombre del archivo
+     * @param dia corresponde al dia que se esta buscando
+     * @param mes corresponde al mes que tiene como nombre el archivo
+     * @param ano corresponde al año que tiene como nombre el archivo
+     * @return retorna true en caso de que encuentre el dia buscado en el archivo, retorna false caso contrario
+     */
     public boolean validarRegistro(String rut, String dia, String mes, String ano){
         ArchivoRegistro archReg = new ArchivoRegistro(rut);
         String diaBuscado = "dia:" + dia;

@@ -28,6 +28,7 @@ public class ArchivoSeguro extends GestorArchivo {
     }
     /**
      *Metodo heredado de GestorArchivo, el cual lee los datos que se encuentren en el archivo
+     * @return retorna todo el contenido de un texto en una cadena
      */
     public String leerArchivo() {
         return super.leerArchivo(this.archivo); 

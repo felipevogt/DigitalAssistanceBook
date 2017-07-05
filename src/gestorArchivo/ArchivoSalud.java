@@ -28,7 +28,7 @@ public class ArchivoSalud extends GestorArchivo {
     }
     /**
      * Constructor de la clase ArchivoAfiliación, la cual es hija de la clase GestorArchivo
-     * 
+     * @return retorna todo el contenido de un texto en una cadena
      */
     public String leerArchivo() {
         return super.leerArchivo(this.archivo); 

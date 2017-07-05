@@ -68,6 +68,10 @@ public class Empleado {
         this.codAfiliacion = codAfiliacion;
     }
 
+    /**
+     * Constructor de la clase Empleado
+     * 
+     */
     public Empleado(String rut, String nombre, String apellidoPaterno, String apellidoMaterno, String fechaNacimiento, String fechaIngreso, String telefono, String sexo, String estadoCivil, int horasPorDia, String codTrabajo, String codSalud, String codSeguro, String codAfiliacion) {
         this.rut = rut;
         this.nombre = nombre;

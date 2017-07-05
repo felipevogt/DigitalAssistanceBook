@@ -24,13 +24,14 @@ public class ArchivoEmpleado extends GestorArchivo{
     }
      /**
      *Metodo heredado de GestorArchivo, el cual escribe en el archivo
-     * @param candena, corresponde a la cadena que se guardara en el archivo de texto
+     * @param cadena, corresponde a la cadena que se guardara en el archivo de texto
      */
     public void escribirArchivo(String cadena) {
         super.escribirArchivo(this.archivo, cadena); 
     }
      /**
      *Metodo heredado de GestorArchivo, el cual lee los datos que se encuentren en el archivo
+     * @return retorna todo el contenido de un texto en una cadena
      */
     public String leerArchivo(){
         return super.leerArchivo(this.archivo);

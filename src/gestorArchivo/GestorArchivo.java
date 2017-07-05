@@ -37,6 +37,7 @@ public abstract class GestorArchivo {
     /**
      *Metodo para leer un archivo de texto completo
      * @param archivo, corresponde a un archivo tipo File el cual se quiere leer su contenido
+     * @return retorna todo el contenido de un texto en una cadena
      */
     public String leerArchivo(File archivo){
         try {
@@ -80,7 +81,7 @@ public abstract class GestorArchivo {
     /**
      *Metodo para modificar un archivo de texto, crea 2 archivos uno sin modificar y otro modificado, el arhivo
      * sin modigica se borra para que solo quede el archivo modificado.
-     * @param archivoAntugo, corresponde al archivo sin modificar que posteriormente sera modificado y eliminado
+     * @param archivoAntiguo, corresponde al archivo sin modificar que posteriormente sera modificado y eliminado
      * @param cadenaAntigua, corresponde a la cadena que se quiere modificar
      * @param cadenaNueva, corresponde a la cadena que va a remplazar la cadena antigua
      */

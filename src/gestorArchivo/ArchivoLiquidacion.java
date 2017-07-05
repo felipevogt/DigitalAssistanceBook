@@ -29,6 +29,18 @@ public class ArchivoLiquidacion extends GestorArchivo{
     /**
      *Metodo heredado de GestorArchivo, el cual escribe en el archivo
      * este metodo contiene todos los atributos de un empleado
+     * @param mes, corresponde a parte del nombre del archivo de texto
+     * @param ano, corresponde al año que forma parte del archivo de texto
+     * @param nombre, nombre del empleado
+     * @param rut, rut del empleado
+     * @param fechaIngreso, fecha ingreso del empleado
+     * @param cargo, tipo de trabajo que realiza el empleado
+     * @param afiliacion, afiliacion a la que pertenece el empleado
+     * @param salud, isapre o fonasa segun el empleado
+     * @param seguro, seguro que tenga el empleado
+     * @param diasTrabajados, dias que trabajo en el mes
+     * @param horasTrabajadas, horas que trabajo en el mes
+     * @param horasExtras, horas extras que realizo en el mes el empleado
      * @param  sueldoBase, corresponde al sueldo de un empleado calculado en la clase Liquidacion
      * @param  adicionalHorasExtras, corresponde a lo que gana un empleado por realizar horas extras (calculado en la clase Liquidacion)
      * @param  sueldoBruto, corresponde al sueldo bruto de un empleado. calculado en la clase Liquidacion
